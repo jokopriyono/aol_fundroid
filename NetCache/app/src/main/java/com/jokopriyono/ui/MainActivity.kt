@@ -14,6 +14,7 @@ import com.jokopriyono.data.remote.ApiRepository
 import com.jokopriyono.data.remote.response.Posts
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.alert
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import org.jetbrains.anko.yesButton
 
@@ -21,6 +22,7 @@ class MainActivity : AppCompatActivity(), MainView, SearchView.OnQueryTextListen
     companion object {
         private const val SHARED_PREFERENCE = "netcachepref"
         const val KEY_PULL = "pull"
+        const val INTENT_DATA = "data"
     }
 
     private lateinit var mainPresenter: MainPresenter
@@ -99,7 +101,9 @@ class MainActivity : AppCompatActivity(), MainView, SearchView.OnQueryTextListen
         }
         val adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, titles)
         list_view.adapter = adapter
-        list_view.setOnClickListener { }
+        list_view.setOnItemClickListener { _, _, pos: Int, _: Long ->
+            startActivity<DetailActivity>(INTENT_DATA to posts[pos])
+        }
     }
 
     override fun showLoading() {
