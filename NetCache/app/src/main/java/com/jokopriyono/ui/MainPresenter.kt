@@ -34,7 +34,8 @@ class MainPresenter(
                         apiRepository.doRequest(JsonApi.getPosts()).await(),
                         arrayOf<Posts>()::class.java
                     )
-                saveToDatabase(data)
+                if (data.isNotEmpty()) saveToDatabase(data)
+                else mainView.t(context.getString(R.string.data_empty))
                 mainView.hideLoading()
             } catch (e: java.lang.Exception) {
                 e.printStackTrace()
@@ -47,23 +48,17 @@ class MainPresenter(
         try {
             context.database.use {
                 delete(PostsColumn.TABLE_POSTS)
-                if (data.isNotEmpty()) {
-                    for (post: Posts in data) {
-                        insert(
-                            PostsColumn.TABLE_POSTS,
-                            PostsColumn.ID_POST to post.id,
-                            PostsColumn.USER_ID to post.userId,
-                            PostsColumn.TITLE to post.title,
-                            PostsColumn.BODY to post.body
-                        )
-                    }
-                    sharedPref.edit(commit = true) { putBoolean(MainActivity.KEY_PULL, true) }
-                    searchPost("")
-                } else {
-                    if (!sharedPref.getBoolean(MainActivity.KEY_PULL, false)) {
-                        mainView.showAlert(context.getString(R.string.please_pull))
-                    }
+                for (post: Posts in data) {
+                    insert(
+                        PostsColumn.TABLE_POSTS,
+                        PostsColumn.ID_POST to post.id,
+                        PostsColumn.USER_ID to post.userId,
+                        PostsColumn.TITLE to post.title,
+                        PostsColumn.BODY to post.body
+                    )
                 }
+                sharedPref.edit(commit = true) { putBoolean(MainActivity.KEY_PULL, true) }
+                searchPost("")
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -79,16 +74,23 @@ class MainPresenter(
                         .whereArgs(PostsColumn.TITLE + " LIKE '%$query%'")
                         .orderBy(PostsColumn.TITLE)
                     val data = result.parseList(classParser<PostsColumn>())
-                    for (row: PostsColumn in data) {
-                        val p = Posts(
-                            row.userId,
-                            row.idPost,
-                            row.title,
-                            row.body
-                        )
-                        posts.add(p)
+                    if (data.isNotEmpty()) {
+                        for (row: PostsColumn in data) {
+                            val p = Posts(
+                                row.userId,
+                                row.idPost,
+                                row.title,
+                                row.body
+                            )
+                            posts.add(p)
+                        }
+                        mainView.showPosts(posts)
+                    } else {
+                        if (!sharedPref.getBoolean(MainActivity.KEY_PULL, false)) {
+                            mainView.showAlert(context.getString(R.string.please_pull))
+                        }
                     }
-                    mainView.showPosts(posts)
+
                 }
             } catch (e: Exception) {
                 e.printStackTrace()

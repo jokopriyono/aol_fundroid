@@ -4,4 +4,5 @@
     <string name="check_connection">Cek koneksi internet kamu</string>
     <string name="please_pull">Please pull to refresh</string>
     <string name="ok">OK</string>
+    <string name="data_empty">Somehow, data from the server is empty</string>
 </resources>
