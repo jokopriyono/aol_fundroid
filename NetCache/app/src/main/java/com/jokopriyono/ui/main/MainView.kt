@@ -1,4 +1,4 @@
-package com.jokopriyono.ui
+package com.jokopriyono.ui.main
 
 import com.jokopriyono.data.remote.response.Posts
 

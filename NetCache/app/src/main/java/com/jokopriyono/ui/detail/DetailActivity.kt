@@ -1,4 +1,4 @@
-package com.jokopriyono.ui
+package com.jokopriyono.ui.detail
 
 import android.graphics.Typeface
 import android.os.Bundle
@@ -9,6 +9,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import com.jokopriyono.R
 import com.jokopriyono.data.remote.response.Posts
+import com.jokopriyono.ui.main.MainActivity
 import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.toolbar
 

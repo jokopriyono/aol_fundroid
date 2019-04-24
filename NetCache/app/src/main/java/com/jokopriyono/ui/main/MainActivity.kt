@@ -1,4 +1,4 @@
-package com.jokopriyono.ui
+package com.jokopriyono.ui.main
 
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -12,6 +12,7 @@ import com.jokopriyono.Common
 import com.jokopriyono.R
 import com.jokopriyono.data.remote.ApiRepository
 import com.jokopriyono.data.remote.response.Posts
+import com.jokopriyono.ui.detail.DetailActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.startActivity
