@@ -20,7 +20,7 @@ class DBHelper(context: Context) : ManagedSQLiteOpenHelper(context, "netcache.db
         db.createTable(
             PostsColumn.TABLE_POSTS, true,
             PostsColumn.ID_ to INTEGER + PRIMARY_KEY + AUTOINCREMENT,
-            PostsColumn.ID to INTEGER + NOT_NULL,
+            PostsColumn.ID_POST to INTEGER + NOT_NULL,
             PostsColumn.USER_ID to INTEGER + NOT_NULL,
             PostsColumn.TITLE to TEXT + NOT_NULL,
             PostsColumn.BODY to TEXT + NOT_NULL

@@ -1,7 +1,6 @@
 package com.jokopriyono.ui
 
 import android.content.Context
-import android.util.Log
 import com.google.gson.Gson
 import com.jokopriyono.data.database.PostsColumn
 import com.jokopriyono.data.database.database
@@ -46,7 +45,7 @@ class MainPresenter(
                     for (post: Posts in data) {
                         insert(
                             PostsColumn.TABLE_POSTS,
-                            PostsColumn.ID to post.id,
+                            PostsColumn.ID_POST to post.id,
                             PostsColumn.USER_ID to post.userId,
                             PostsColumn.TITLE to post.title,
                             PostsColumn.BODY to post.body
@@ -65,17 +64,16 @@ class MainPresenter(
                 val posts: MutableList<Posts> = mutableListOf()
                 context.database.use {
                     val result = select(PostsColumn.TABLE_POSTS)
-                        .whereArgs(PostsColumn.BODY + "={q}", "q" to query)
+                        .whereArgs(PostsColumn.BODY + " LIKE '%$query%'")
                     val data = result.parseList(classParser<PostsColumn>())
                     for (row: PostsColumn in data) {
                         val p = Posts(
                             row.userId,
-                            row.id,
+                            row.idPost,
                             row.title,
                             row.body
                         )
                         posts.add(p)
-                        Log.d("pesan", "masuk " + row.id)
                     }
                 }
             } catch (e: Exception) {
