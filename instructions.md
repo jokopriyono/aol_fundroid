@@ -1,7 +1,7 @@
 Buatlah aplikasi android dengan kriteria berikut :
 
 1.NetCache 
-Buat folder baru bernama NetCache, disinilah Anda mengerjakan applikasi ini
+Kerjakan aplikasi ini di folder NetCache
 
 Specs :
 1. Mengunduh data dari http://jsonplaceholder.typicode.com/posts
@@ -16,7 +16,7 @@ Specs :
 
 
 2. FormTastic
-Buat folder baru bernama FormTastic, disinilah Anda mengerjakan applikasi ini
+Kerjakan aplikasi ini di folder FormTastic
 Deskripsi :
 Buatlah sebuah aplikasi yang menampilkan form dengan desain seperti file "form.png".
 Kerahkan kemampuan terbaik Anda untuk membuat tampilan form semirip mungkin dengan gambar tersebut. (Boleh menggunakan 3rd party view library dari luar)
@@ -33,8 +33,9 @@ Test case :
 2. Dalam keadaan agreement checkbox dicentang, ketika tombol "Daftar" di-tap :
    * Jika input form tidak valid, munculkan Alert/PopUp/Toast (pilih salah satu) berisi informasi error input yang terjadi
    * Jika input form valid, munculkan loading view / spinner selama 2 detik, lalu pop up bertuliskan "Sukses"
+3. Ketika input form tertutup keyboard, maka form akan scroll sehingga texfield kembali dapat terlihat.
 
 
 ===================================================================
-Setelah selesai, 
-lakukan commit repository dengan message "AOL Fundroid indeed" dan push ke remote branch
+Setelah selesai, archive parent folder "AOL__FUNDROID" dalam .zip. Pastikan project-nya sudah di-clean terlebih dahulu.
+Kirim ke adi.purnama@alfacart.com (boleh attach atau cukup share link download dropbox-nya)
