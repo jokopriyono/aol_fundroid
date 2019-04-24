@@ -6,11 +6,12 @@ import org.jetbrains.anko.db.*
 
 class DBHelper(context: Context) : ManagedSQLiteOpenHelper(context, "netcache.db", null, 1) {
     companion object {
-        private var instance: DBHelper? = null
+        var instance: DBHelper? = null
 
         @Synchronized
         fun getInstance(context: Context): DBHelper {
-            instance?.let { instance = DBHelper(context.applicationContext) }
+            if (instance == null)
+                instance = DBHelper(context.applicationContext)
             return instance as DBHelper
         }
     }
@@ -18,15 +19,16 @@ class DBHelper(context: Context) : ManagedSQLiteOpenHelper(context, "netcache.db
     override fun onCreate(db: SQLiteDatabase) {
         db.createTable(
             PostsColumn.TABLE_POSTS, true,
-            PostsColumn.ID to INTEGER + UNIQUE,
-            PostsColumn.USER_ID to INTEGER,
-            PostsColumn.TITLE to TEXT,
-            PostsColumn.BODY to TEXT
+            PostsColumn.ID_ to INTEGER + PRIMARY_KEY + AUTOINCREMENT,
+            PostsColumn.ID to INTEGER + NOT_NULL,
+            PostsColumn.USER_ID to INTEGER + NOT_NULL,
+            PostsColumn.TITLE to TEXT + NOT_NULL,
+            PostsColumn.BODY to TEXT + NOT_NULL
         )
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        db.dropTable("", true)
+        db.dropTable(PostsColumn.TABLE_POSTS, true)
     }
 }
 

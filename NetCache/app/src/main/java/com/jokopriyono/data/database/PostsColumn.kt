@@ -7,10 +7,11 @@ data class PostsColumn(
     val body: String
 ) {
     companion object {
-        const val TABLE_POSTS: String = "T_POSTS"
-        const val ID: String = "ID_"
-        const val USER_ID: String = "USER_ID"
-        const val TITLE: String = "TITLE"
-        const val BODY: String = "BODY"
+        const val TABLE_POSTS: String = "posts"
+        const val ID_: String = "id_"
+        const val ID: String = "id"
+        const val USER_ID: String = "user_id"
+        const val TITLE: String = "title"
+        const val BODY: String = "body"
     }
 }
