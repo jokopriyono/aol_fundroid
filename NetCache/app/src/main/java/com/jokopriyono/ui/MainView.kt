@@ -5,6 +5,7 @@ import com.jokopriyono.data.remote.response.Posts
 interface MainView {
     fun showLoading()
     fun hideLoading()
-    fun toast(m: String)
+    fun t(m: String)
     fun showPosts(posts: MutableList<Posts>)
+    fun showAlert(m: String)
 }

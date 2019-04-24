@@ -1,5 +1,6 @@
 package com.jokopriyono.ui
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
 import android.view.Menu
@@ -12,11 +13,20 @@ import com.jokopriyono.R
 import com.jokopriyono.data.remote.ApiRepository
 import com.jokopriyono.data.remote.response.Posts
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.alert
+import org.jetbrains.anko.toast
+import org.jetbrains.anko.yesButton
 
 class MainActivity : AppCompatActivity(), MainView, SearchView.OnQueryTextListener {
+    companion object {
+        private const val SHARED_PREFERENCE = "netcachepref"
+        const val KEY_PULL = "pull"
+    }
+
     private lateinit var mainPresenter: MainPresenter
-    private var handler: Handler = Handler()
     private lateinit var searchView: SearchView
+    private lateinit var sharedPref: SharedPreferences
+    private var handler: Handler = Handler()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,8 +34,12 @@ class MainActivity : AppCompatActivity(), MainView, SearchView.OnQueryTextListen
 
         val apiRepository = ApiRepository()
         val gson = Gson()
-        mainPresenter = MainPresenter(this, apiRepository, gson)
-        getPosts()
+        sharedPref = applicationContext.getSharedPreferences(SHARED_PREFERENCE, 0)
+        mainPresenter = MainPresenter(this, apiRepository, gson, sharedPref, applicationContext)
+
+        val alreadyPull = sharedPref.getBoolean(KEY_PULL, false)
+        if (!alreadyPull) getPosts()
+        else mainPresenter.searchPost("")
 
         swipe_refresh.setOnRefreshListener {
             getPosts()
@@ -47,7 +61,7 @@ class MainActivity : AppCompatActivity(), MainView, SearchView.OnQueryTextListen
         searchView.clearFocus()
         handler.removeCallbacksAndMessages(null)
         if (query.isNotEmpty()) {
-            mainPresenter.searchPost(query, applicationContext)
+            mainPresenter.searchPost(query)
         }
         return true
     }
@@ -57,7 +71,7 @@ class MainActivity : AppCompatActivity(), MainView, SearchView.OnQueryTextListen
         handler.postDelayed({
             query?.let {
                 if (query.isNotEmpty()) {
-                    runOnUiThread { mainPresenter.searchPost(query, applicationContext) }
+                    runOnUiThread { mainPresenter.searchPost(query) }
                 }
             }
         }, 1000)
@@ -65,8 +79,17 @@ class MainActivity : AppCompatActivity(), MainView, SearchView.OnQueryTextListen
     }
 
     private fun getPosts() {
-        if (Common.checkInternet(this)) mainPresenter.getPosts(this)
-        else toast(getString(R.string.check_connection))
+        if (Common.checkInternet(this)) mainPresenter.getPosts()
+        else {
+            toast(getString(R.string.check_connection))
+            swipe_refresh.isRefreshing = false
+        }
+    }
+
+    override fun showAlert(m: String) {
+        alert(m) {
+            yesButton { getString(R.string.ok) }
+        }.show()
     }
 
     override fun showPosts(posts: MutableList<Posts>) {
@@ -76,6 +99,7 @@ class MainActivity : AppCompatActivity(), MainView, SearchView.OnQueryTextListen
         }
         val adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, titles)
         list_view.adapter = adapter
+        list_view.setOnClickListener { }
     }
 
     override fun showLoading() {
@@ -86,7 +110,7 @@ class MainActivity : AppCompatActivity(), MainView, SearchView.OnQueryTextListen
         swipe_refresh.isRefreshing = false
     }
 
-    override fun toast(m: String) {
+    override fun t(m: String) {
         toast(m)
     }
 }

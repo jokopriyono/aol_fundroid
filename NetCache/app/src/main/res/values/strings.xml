@@ -2,4 +2,6 @@
     <string name="app_name">NetCache</string>
     <string name="search">Cari</string>
     <string name="check_connection">Cek koneksi internet kamu</string>
+    <string name="please_pull">Please pull to refresh</string>
+    <string name="ok">OK</string>
 </resources>

@@ -1,7 +1,10 @@
 package com.jokopriyono.ui
 
 import android.content.Context
+import android.content.SharedPreferences
+import androidx.core.content.edit
 import com.google.gson.Gson
+import com.jokopriyono.R
 import com.jokopriyono.data.database.PostsColumn
 import com.jokopriyono.data.database.database
 import com.jokopriyono.data.remote.ApiRepository
@@ -18,26 +21,29 @@ import org.jetbrains.anko.db.select
 class MainPresenter(
     private val mainView: MainView,
     private val apiRepository: ApiRepository,
-    private val gson: Gson
+    private val gson: Gson,
+    private val sharedPref: SharedPreferences,
+    private val context: Context
 ) {
-    fun getPosts(context: Context) {
-        mainView.showLoading()
+    fun getPosts() {
         GlobalScope.launch(Dispatchers.Main) {
+            mainView.showLoading()
             try {
                 val data =
                     gson.fromJson(
                         apiRepository.doRequest(JsonApi.getPosts()).await(),
                         arrayOf<Posts>()::class.java
                     )
-                saveToDatabase(data, context)
+                saveToDatabase(data)
+                mainView.hideLoading()
             } catch (e: java.lang.Exception) {
                 e.printStackTrace()
+                mainView.hideLoading()
             }
-            mainView.hideLoading()
         }
     }
 
-    private fun saveToDatabase(data: Array<Posts>, context: Context) {
+    private fun saveToDatabase(data: Array<Posts>) {
         try {
             context.database.use {
                 delete(PostsColumn.TABLE_POSTS)
@@ -51,6 +57,12 @@ class MainPresenter(
                             PostsColumn.BODY to post.body
                         )
                     }
+                    sharedPref.edit(commit = true) { putBoolean(MainActivity.KEY_PULL, true) }
+                    searchPost("")
+                } else {
+                    if (!sharedPref.getBoolean(MainActivity.KEY_PULL, false)) {
+                        mainView.showAlert(context.getString(R.string.please_pull))
+                    }
                 }
             }
         } catch (e: Exception) {
@@ -58,7 +70,7 @@ class MainPresenter(
         }
     }
 
-    fun searchPost(query: String, context: Context) {
+    fun searchPost(query: String) {
         GlobalScope.launch(Dispatchers.Main) {
             try {
                 val posts: MutableList<Posts> = mutableListOf()
