@@ -64,7 +64,8 @@ class MainPresenter(
                 val posts: MutableList<Posts> = mutableListOf()
                 context.database.use {
                     val result = select(PostsColumn.TABLE_POSTS)
-                        .whereArgs(PostsColumn.BODY + " LIKE '%$query%'")
+                        .whereArgs(PostsColumn.TITLE + " LIKE '%$query%'")
+                        .orderBy(PostsColumn.TITLE)
                     val data = result.parseList(classParser<PostsColumn>())
                     for (row: PostsColumn in data) {
                         val p = Posts(
@@ -75,6 +76,7 @@ class MainPresenter(
                         )
                         posts.add(p)
                     }
+                    mainView.showPosts(posts)
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
