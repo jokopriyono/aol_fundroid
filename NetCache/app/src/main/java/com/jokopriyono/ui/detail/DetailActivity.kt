@@ -15,10 +15,12 @@ import org.jetbrains.anko.appcompat.v7.toolbar
 
 class DetailActivity : AppCompatActivity() {
     lateinit var toolbar: Toolbar
+    private var post: Posts? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val post: Posts = intent.getParcelableExtra(MainActivity.INTENT_DATA)
+        post = if (savedInstanceState == null) intent.getParcelableExtra(MainActivity.INTENT_DATA)
+        else intent.getParcelableExtra(MainActivity.INTENT_DATA) as Posts
 
         verticalLayout {
             lparams(width = MATCH_PARENT, height = MATCH_PARENT)
@@ -32,7 +34,7 @@ class DetailActivity : AppCompatActivity() {
                 lparams(width = MATCH_PARENT, height = MATCH_PARENT)
                 padding = dip(16)
                 textView {
-                    text = post.title
+                    post?.let { text = it.title }
                     textSize = 20f
                     setTypeface(typeface, Typeface.BOLD)
                     textColor = ContextCompat.getColor(context, R.color.colorPrimary)
@@ -41,10 +43,15 @@ class DetailActivity : AppCompatActivity() {
                     height = WRAP_CONTENT
                     bottomMargin = dip(10)
                 }
-                textView(post.body)
+                textView(post?.body)
             }
         }
 
         toolbar.setNavigationOnClickListener { finish() }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        post?.let { outState.putParcelable(MainActivity.INTENT_DATA, it) }
+        super.onSaveInstanceState(outState)
     }
 }

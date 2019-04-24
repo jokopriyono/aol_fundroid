@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity(), MainView, SearchView.OnQueryTextListen
     companion object {
         private const val SHARED_PREFERENCE = "netcachepref"
         const val KEY_PULL = "pull"
+        const val KEY_QUERY = "query"
         const val INTENT_DATA = "data"
     }
 
@@ -30,6 +31,7 @@ class MainActivity : AppCompatActivity(), MainView, SearchView.OnQueryTextListen
     private lateinit var searchView: SearchView
     private lateinit var sharedPref: SharedPreferences
     private var handler: Handler = Handler()
+    private var query: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,12 +44,19 @@ class MainActivity : AppCompatActivity(), MainView, SearchView.OnQueryTextListen
 
         val alreadyPull = sharedPref.getBoolean(KEY_PULL, false)
         if (!alreadyPull) getPosts()
-        else mainPresenter.searchPost("")
-
+        else {
+            if (savedInstanceState != null) query = savedInstanceState.getString(KEY_QUERY)
+            else mainPresenter.searchPost("")
+        }
         swipe_refresh.setOnRefreshListener {
             getPosts()
         }
         setSupportActionBar(toolbar)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        if (searchView.query.toString().isNotEmpty()) outState.putString(KEY_QUERY, searchView.query.toString())
+        super.onSaveInstanceState(outState)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -57,6 +66,14 @@ class MainActivity : AppCompatActivity(), MainView, SearchView.OnQueryTextListen
         searchView.queryHint = getString(R.string.search)
         searchView.setOnQueryTextListener(this)
         searchView.clearFocus()
+        query?.let {
+            if (it.isNotEmpty()) {
+                menuSearch.expandActionView()
+                searchView.onActionViewExpanded()
+                searchView.isIconified = false
+                searchView.setQuery(it, true)
+            }
+        }
         return super.onCreateOptionsMenu(menu)
     }
 
