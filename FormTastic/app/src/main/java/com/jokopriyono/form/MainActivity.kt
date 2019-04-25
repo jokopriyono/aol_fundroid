@@ -14,9 +14,17 @@ import org.jetbrains.anko.toast
 import org.jetbrains.anko.yesButton
 
 class MainActivity : AppCompatActivity() {
+    companion object {
+        private const val KEY_FIRST_NAME = "first_name"
+        private const val KEY_LAST_NAME = "last_name"
+        private const val KEY_PASSWORD = "password"
+        private const val KEY_PASSWORD_2 = "password2"
+        private const val KEY_EMAIL = "email"
+    }
 
     private val handler: Handler = Handler()
 
+    @Suppress("DEPRECATION")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -27,8 +35,28 @@ class MainActivity : AppCompatActivity() {
         else
             txt_agreement.text = Html.fromHtml(text)
 
+        savedInstanceState?.let {
+            edt_first_name.setText(it.getString(KEY_FIRST_NAME))
+            edt_last_name.setText(it.getString(KEY_LAST_NAME))
+            edt_password.setText(it.getString(KEY_PASSWORD))
+            edt_confirm_password.setText(it.getString(KEY_PASSWORD_2))
+            edt_email.setText(it.getString(KEY_EMAIL))
+        }
+
         checkbox.setOnCheckedChangeListener { _, isChecked -> btn_register.isEnabled = isChecked }
         btn_register.setOnClickListener { validate() }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        if (edt_first_name.toString().isNotEmpty()) outState.putString(KEY_FIRST_NAME, edt_first_name.text.toString())
+        if (edt_last_name.toString().isNotEmpty()) outState.putString(KEY_LAST_NAME, edt_last_name.text.toString())
+        if (edt_password.toString().isNotEmpty()) outState.putString(KEY_PASSWORD, edt_password.text.toString())
+        if (edt_confirm_password.toString().isNotEmpty()) outState.putString(
+            KEY_PASSWORD_2,
+            edt_confirm_password.text.toString()
+        )
+        if (edt_email.toString().isNotEmpty()) outState.putString(KEY_EMAIL, edt_email.text.toString())
+        super.onSaveInstanceState(outState)
     }
 
     private fun validate() {
