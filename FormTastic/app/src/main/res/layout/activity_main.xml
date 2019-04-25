@@ -62,6 +62,8 @@
 
             <Spinner
                     android:id="@+id/spinner"
+                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                    android:layout_marginBottom="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 

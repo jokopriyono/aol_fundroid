@@ -7,6 +7,7 @@ import android.text.Html
 import android.util.Patterns
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.alert
@@ -34,6 +35,14 @@ class MainActivity : AppCompatActivity() {
             txt_agreement.text = Html.fromHtml(text, Html.FROM_HTML_MODE_LEGACY)
         else
             txt_agreement.text = Html.fromHtml(text)
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.gender,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinner.adapter = adapter
+        }
 
         savedInstanceState?.let {
             edt_first_name.setText(it.getString(KEY_FIRST_NAME))
