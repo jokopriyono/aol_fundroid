@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">FormTastic</string>
+    <string name="first_name">Nama depan</string>
+    <string name="your_first_name">Nama depan anda</string>
+    <string name="last_name">Nama belakang</string>
+    <string name="email_hint">nama@domain.com</string>
+    <string name="email">ALAMAT E-MAIL</string>
+    <string name="your_last_name">Nama belakang anda</string>
+    <string name="gender">JENIS KELAMIN</string>
+    <string name="create_password">BUAT PASSWORD</string>
+    <string name="password">password</string>
+    <string name="confirm_password">ULANGI PASSWORD YANG BARU DITULIS</string>
+    <string name="register">Daftar</string>
 </resources>
