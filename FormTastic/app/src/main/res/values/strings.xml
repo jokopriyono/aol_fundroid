@@ -4,17 +4,20 @@
     <string name="your_first_name">Nama depan anda</string>
     <string name="last_name">Nama belakang</string>
     <string name="email_hint">nama@domain.com</string>
-    <string name="email">ALAMAT E-MAIL</string>
+    <string name="email">Alamat e-mail</string>
     <string name="your_last_name">Nama belakang anda</string>
-    <string name="gender">JENIS KELAMIN</string>
-    <string name="create_password">BUAT PASSWORD</string>
+    <string name="gender">Jenis kelamin</string>
+    <string name="create_password">Buat password</string>
     <string name="password">password</string>
-    <string name="confirm_password">ULANGI PASSWORD YANG BARU DITULIS</string>
+    <string name="confirm_password">Ulangi password yang baru ditulis</string>
     <string name="register">Daftar</string>
     <string name="ok">OK</string>
-    <string name="empty">Tidak boleh kosong</string>
+    <string name="empty">tidak boleh kosong</string>
     <string name="two_character">Minimal 2 karakter</string>
     <string name="six_character">Minimal 6 karakter</string>
     <string name="invalid_email">Email tidak valid</string>
     <string name="password_error">Password tidak sama</string>
+    <string name="agreement">
+        <![CDATA[<font color=\'black\'>Saya telah membaca, memahami dan menyetujui </font><font color=\'blue\'>Kebijakan Privasi</font><font color=\'black\'> dan </font><font color=\'blue\'>Syarat dan Ketentuan</font>.]]></string>
+    <string name="success">Sukses</string>
 </resources>
