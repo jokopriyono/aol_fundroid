@@ -18,19 +18,19 @@ class MainActivity : AppCompatActivity() {
 
     private fun validate() {
         if (edt_first_name.text.isEmpty())
-            toast(R.string.empty)
+            toast(g(R.string.first_name) + " " + g(R.string.empty))
         else if (edt_first_name.text.length < 2)
             toast(R.string.two_character)
         else if (edt_last_name.text.isEmpty())
-            toast(R.string.empty)
+            toast(g(R.string.last_name) + " " + g(R.string.empty))
         else if (edt_last_name.text.length < 2)
             toast(R.string.two_character)
         else if (edt_email.text.isEmpty())
-            toast(R.string.empty)
+            toast(g(R.string.email) + " " + g(R.string.empty))
         else if (!Patterns.EMAIL_ADDRESS.matcher(edt_email.text).matches())
             toast(R.string.invalid_email)
         else if (edt_password.text.isEmpty())
-            toast(R.string.empty)
+            toast(g(R.string.password) + " " + g(R.string.empty))
         else if (edt_password.text.length < 6)
             toast(R.string.six_character)
         else if (edt_password.text.toString() != edt_confirm_password.text.toString())
@@ -38,6 +38,8 @@ class MainActivity : AppCompatActivity() {
         else
             process()
     }
+
+    private fun g(ids: Int): String = getString(ids)
 
     private fun process() {
 
