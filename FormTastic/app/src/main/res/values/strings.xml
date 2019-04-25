@@ -11,4 +11,10 @@
     <string name="password">password</string>
     <string name="confirm_password">ULANGI PASSWORD YANG BARU DITULIS</string>
     <string name="register">Daftar</string>
+    <string name="ok">OK</string>
+    <string name="empty">Tidak boleh kosong</string>
+    <string name="two_character">Minimal 2 karakter</string>
+    <string name="six_character">Minimal 6 karakter</string>
+    <string name="invalid_email">Email tidak valid</string>
+    <string name="password_error">Password tidak sama</string>
 </resources>
